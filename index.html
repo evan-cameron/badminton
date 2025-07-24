@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Schedule Preference Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- EmailJS Library for direct email sending -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Weekly Badminton Session Scheduling</h1>
+            <p>Please indicate your availability preferences for our weekly 2-hour badminton sessions. You can select up to 4 options and rank them in order of preference.</p>
+        </header>
+
+        <form id="scheduleForm" class="schedule-form">
+            <div class="form-group">
+                <label for="name">Your Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number (optional)</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <h3>Availability Preferences</h3>
+            <p class="instruction">Select up to 4 time slots that work for you. Drag to reorder by preference (1st = most preferred).</p>
+
+            <div id="preferences-container" class="preferences-container">
+                <div class="preference-item" data-preference="1">
+                    <div class="preference-header">
+                        <span class="preference-number">1st Preference</span>
+                        <button type="button" class="remove-preference" onclick="removePreference(this)">×</button>
+                    </div>
+                    <div class="time-selection">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label>Day of Week</label>
+                                <select name="day_1" required>
+                                    <option value="">Select Day</option>
+                                    <option value="monday">Monday</option>
+                                    <option value="tuesday">Tuesday</option>
+                                    <option value="wednesday">Wednesday</option>
+                                    <option value="thursday">Thursday</option>
+                                    <option value="friday">Friday</option>
+                                    <option value="saturday">Saturday</option>
+                                    <option value="sunday">Sunday</option>
+                                </select>
+                            </div>
+                            <div class="form-col">
+                                <label>Start Time</label>
+                                <select name="start_time_1" required>
+                                    <option value="">Select Time</option>
+                                    <option value="06:00">6:00 AM</option>
+                                    <option value="07:00">7:00 AM</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                    <option value="20:00">8:00 PM</option>
+                                    <option value="21:00">9:00 PM</option>
+                                </select>
+                            </div>
+                            <div class="form-col">
+                                <label>End Time</label>
+                                <input type="text" name="end_time_1" readonly placeholder="Auto-calculated">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="add-preference" class="add-preference-btn">+ Add Another Preference</button>
+
+            <div class="form-group">
+                <label for="comments">Additional Comments (optional)</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Any additional notes about your availability..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Submit Preferences</button>
+                <button type="reset" class="reset-btn">Reset Form</button>
+            </div>
+        </form>
+
+        <div id="success-message" class="success-message" style="display: none;">
+            <h3>Thank you!</h3>
+            <p>Your preferences have been submitted successfully. We'll be in touch soon about the final schedule.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
