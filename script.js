@@ -304,8 +304,9 @@ class ScheduleFormManager {
         
         // Using EmailJS to send emails directly from the web app
         try {
-            const templateParams = {
-                to_email: 'ecameron@nscad.ca',
+            // First email: Send detailed form data to admin
+            const adminTemplateParams = {
+                to_email: 'dev.evancameron@gmail.com',  // Admin email to receive submissions
                 from_name: data.name,
                 from_email: data.email,
                 subject: subject,
@@ -318,28 +319,50 @@ class ScheduleFormManager {
                 submission_date: new Date().toLocaleString()
             };
 
+            // Second email: Send confirmation to form submitter
+            const confirmationTemplateParams = {
+                to_email: data.email,  // Form submitter's email
+                from_name: 'Badminton Scheduling System',
+                user_name: data.name,
+                subject: 'Confirmation: Your Badminton Schedule Preferences',
+                preferences_formatted: data.preferences.map(p => 
+                    `${p.rank}. ${p.day} from ${this.convertTo12Hour(p.startTime)} to ${p.endTime}`
+                ).join('\n'),
+                submission_date: new Date().toLocaleString()
+            };
+
             // Initialize EmailJS if not already done
             if (typeof emailjs === 'undefined') {
                 throw new Error('EmailJS not loaded. Please check your internet connection.');
             }
 
-            // Send email using EmailJS
-            const response = await emailjs.send(
+            // Send email to admin with form details
+            console.log('Sending admin email...');
+            const adminResponse = await emailjs.send(
                 'service_9uk5zmq',   // Your EmailJS Service ID
-                'template_schedule',  // Template ID - you'll need to create this
-                templateParams,
+                'template_schedule',  // Template ID for admin notifications
+                adminTemplateParams,
                 'fqQKTt69fciZEJ0z6'  // Your EmailJS Public Key
             );
 
-            console.log('Email sent successfully:', response);
-            return response;
+            // Send confirmation email to form submitter
+            console.log('Sending confirmation email...');
+            const confirmationResponse = await emailjs.send(
+                'service_9uk5zmq',   // Your EmailJS Service ID
+                'template_confirmation',  // Template ID for user confirmations
+                confirmationTemplateParams,
+                'fqQKTt69fciZEJ0z6'  // Your EmailJS Public Key
+            );
+
+            console.log('Both emails sent successfully:', { admin: adminResponse, confirmation: confirmationResponse });
+            return { admin: adminResponse, confirmation: confirmationResponse };
 
         } catch (error) {
             console.error('Email sending failed:', error);
             
             // Fallback to mailto if EmailJS fails
             console.log('Falling back to mailto...');
-            const mailtoLink = `mailto:ecameron@nscad.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:dev.evancameron@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.location.href = mailtoLink;
             
             throw error;
