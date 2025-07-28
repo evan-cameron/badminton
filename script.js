@@ -328,7 +328,7 @@ class ScheduleFormManager {
                 'service_9uk5zmq',   // Your EmailJS Service ID
                 'template_schedule',  // Template ID - you'll need to create this
                 templateParams,
-                'YOUR_PUBLIC_KEY'    // Public Key - you'll get this from EmailJS
+                'fqQKTt69fciZEJ0z6'  // Your EmailJS Public Key
             );
 
             console.log('Email sent successfully:', response);
@@ -464,7 +464,7 @@ let scheduleForm;
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize EmailJS
     if (typeof emailjs !== 'undefined') {
-        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your actual EmailJS public key
+        emailjs.init('fqQKTt69fciZEJ0z6'); // Your EmailJS public key
     }
     
     scheduleForm = new ScheduleFormManager();
